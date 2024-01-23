@@ -1,0 +1,200 @@
+(*Exercício 2.1*)
+
+Section exercício2_1.
+
+Variable P Q:Prop.
+
+Lemma exercicio_a: P -> P.
+Proof.
+intro.
+assumption.
+Qed.
+
+
+Lemma exercicio_b: P -> ( P \/ Q).
+Proof.
+intro.
+left.
+assumption.
+Qed.
+
+Lemma exercicio_c: P -> (Q -> P).
+Proof.
+intros.
+assumption.
+Qed.
+
+Lemma exercicio_d: (P /\ Q) -> (P \/ Q).
+Proof.
+intro.
+left.
+destruct H.
+assumption.
+Qed.
+
+End exercício2_1.
+
+
+
+(*Exercicio 2.2*)
+Section exercicio2_2.
+
+Variable P Q: Prop.
+
+Lemma exercicio2_2_a: P -> P.
+Proof.
+intro.
+assumption.
+Qed.
+
+
+Lemma exercicio2_2_b: Q -> (P -> Q).
+Proof.
+intros.
+assumption.
+Qed.
+
+
+Lemma exercicio2_2_c: P -> ~~P.
+Proof.
+intro.
+intro.
+apply H0.
+assumption.
+Qed.
+
+Lemma exercicio2_2_d: ~P -> (P-> Q).
+Proof.
+intro.
+intro.
+destruct H.
+assumption.
+(* tambem poderia utilizar - contradiction.*)
+Qed.
+
+Lemma exercicio2_2_e: ((P->Q)/\ (Q -> P)) <-> (P <-> Q).
+Proof.
+split.
+intro.
+split.
+intro.
+destruct H.
+apply H.
+assumption.
+destruct H.
+assumption.
+
+(*=>*)
+
+intro.
+split.
+destruct H.
+assumption.
+destruct H.
+assumption.
+Qed.
+
+
+
+Lemma exercicio2_2_f: (~P\/Q)->(P ->Q).
+Proof.
+intro.
+intro.
+elim H.
+intro. 
+
+elim H1.
+assumption.
+intro.
+assumption.
+Qed.
+
+
+
+Lemma exercicio2_2_g: (P\/Q) -> (Q\/P).
+Proof.
+intro.
+elim H.
+intro.
+right.
+assumption.
+intro.
+left;assumption.
+Qed.
+
+Variable S:Prop.
+
+
+
+Lemma exercicio2_2_h: ((P \/ Q) \/ S) -> (P \/ (Q \/ S)).
+Proof.
+intro.
+destruct H.
+destruct H.
+left.
+assumption.
+
+right.
+left.
+assumption.
+right.
+right.
+assumption.
+Qed.
+
+
+End exercicio2_2.
+
+
+
+(*EXERCICIO 2.3*)
+
+Section exercicio2_3.
+
+Variable P Q: Prop.
+
+Require Import Classical.
+
+Lemma exercicio2_3_a: ~~P <-> P.
+Proof.
+split.
+intro.
+apply NNPP.
+assumption.
+intro.
+intro.
+apply H0.
+assumption.
+Qed.
+
+
+Lemma exercicio2_3_b: (P->Q) <-> (~Q -> ~P).
+Proof.
+split.
+intro.
+intro.
+intro.
+apply H0.
+apply H.
+assumption.
+
+intro.
+intro.
+apply NNPP.
+intro.
+
+apply H.
+assumption.
+assumption.
+Qed.
+
+End exercicio2_3.
+
+
+
+
+
+
+
+
+

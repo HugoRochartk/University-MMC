@@ -1,0 +1,110 @@
+
+(*repetir a aula 07 sozinha*)
+
+Section Logica_proposicional.
+
+Variable P Q: Prop.
+Check P.
+
+Lemma lei_de_morgan:~(P\/Q) <-> ~P/\~Q.
+Proof.
+split.
+intro.
+
+
+split.
+intro.
+apply H.
+left.
+assumption.
+
+intro.
+apply H.
+right.
+assumption.
+
+(*<=*)
+
+intro.
+intro.
+destruct H.
+destruct H0. (*não percebi bem o que faz o destruction H0 aqui*)
+apply H.
+assumption.
+apply H1.
+assumption.
+
+Qed.
+
+
+
+(*
+Lemma lei_morgan_2: ~P\/ ~Q <-> ~(P/\Q).
+Proof.
+split.
+
+intro.
+intro.
+destruct H0.
+destruct H.
+apply H.
+assumption.
+apply H.
+assumption.
+
+
+(*<=*)
+intro.
+left.
+
+
+intro.
+apply H.
+
+assumption.
+
+
+*)
+
+
+
+
+(*---------------------Outros exercícios----------------------------------*)
+
+(*Exercício 2.1*)
+
+Section exercício2_1.
+
+Variable P Q:Prop.
+
+Lemma exercicio_a: P -> P.
+Proof.
+intro.
+assumption.
+Qed.
+
+
+Lemma exercicio_b: P -> ( P \/ Q).
+Proof.
+intro.
+left.
+assumption.
+Qed.
+
+Lemma exercicio_c: P -> (Q -> P).
+Proof.
+intros.
+assumption.
+Qed.
+
+Lemma exercicio_d: (P /\ Q) -> (P \/ Q).
+Proof.
+intro.
+left.
+destruct H.
+assumption.
+Qed.
+
+End exercício2_1.
+
+

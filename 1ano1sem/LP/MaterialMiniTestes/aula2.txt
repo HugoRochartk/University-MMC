@@ -1,0 +1,159 @@
+(*REPETIR AULA2 DO COQ*)
+
+Section Calculo_Predicados.
+
+Variable D:Set.
+
+Variable c: D.
+Variable f: D->D.
+Variable g: D->D->D.
+
+Variables P Q: D->Prop.
+Variables R: D->D->Prop.
+
+
+Lemma hipotese_universal: (forall x, R x x) -> R c c.
+Proof.
+intro.
+specialize H with c.
+assumption.
+Qed.
+
+Lemma hipotese_universal_2: (forall x y, R x y)-> R (f c) c.
+Proof.
+intro.
+specialize H with (f c) c.
+assumption.
+Qed.
+
+
+Lemma hipotese_universal_3: (forall x y, R x y)-> R (f c) c.
+Proof.
+intro.
+apply H.
+Qed.
+
+
+
+Lemma hipotese_universal_4: ((forall x, P x->R x x)/\ P c)-> R c c.
+Proof.
+intro.
+destruct H.
+specialize H with c.
+apply H.
+assumption.
+Qed.
+
+
+
+Lemma exist_distrib_disj: (exists x, (P x \/ Q x))<-> 
+(exists x, P x)\/(exists x, Q x).
+Proof.
+split.
+intro.
+destruct H.
+destruct H.
+left.
+exists x.
+assumption.
+
+right.
+exists x.
+
+assumption.
+
+
+(*<=*)
+intro.
+destruct H.
+destruct H.
+exists x.
+left.
+assumption.
+
+destruct H.
+exists x.
+right.
+assumption.
+Qed.
+
+Lemma univ_distrib_conj: (forall x, (P x /\Q x))<-> 
+(forall x, P x)/\(forall x, Q x).
+Proof.
+split.
+intro.
+
+split.
+intro.
+specialize H with x.
+destruct H.
+assumption.
+intro.
+specialize H with x.
+destruct H;assumption.
+
+(*<=*)
+intro.
+intro.
+destruct H.
+split.
+specialize H with x.
+assumption.
+
+specialize H0 with x.
+assumption.
+Qed.
+
+
+
+Lemma neg_exist_equivalente_univ_neg: ~(exists x:D, P x)<-> 
+forall x:D, ~P x.
+Proof.
+split.
+(*=>*)
+intro.
+intro.
+intro.
+apply H.
+exists x.
+assumption.
+
+(*<=*)
+intro.
+intro.
+destruct H0.
+specialize H with x.
+apply H.
+assumption.
+Qed.
+
+
+Lemma exist_neg_implica_neg_univ: (exists x:D, ~P x)-> 
+~forall x:D, P x.
+Proof.
+intro.
+intro.
+destruct H.
+specialize H0 with x.
+apply H.
+assumption.
+Qed.
+
+Require Import Classical.
+
+Lemma neg_univ_implica_exist_neg: ~(forall x:D, P x) 
+->(exists x:D, ~P x).
+Proof.
+intro.
+apply NNPP.
+intro.
+apply H.
+intro.
+apply NNPP.
+intro.
+apply H0.
+exists x.
+assumption.
+Qed.
+
+End Calculo_Predicados.

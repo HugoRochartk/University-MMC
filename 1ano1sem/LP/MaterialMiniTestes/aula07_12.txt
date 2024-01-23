@@ -1,0 +1,256 @@
+(* Aula 07-12*)
+
+Section Proposicional_Logic.
+
+Variable P Q S:Prop.
+
+Lemma lei_de_morgan: ~(P\/Q) <-> ~P /\ ~Q.
+Proof.
+split;intro.
+
+(*=>*)
+split.
+intro.
+apply H.
+left.
+assumption.
+
+intro;apply H;right;assumption.
+
+(*<=*)
+
+intro.
+destruct H.
+destruct H0.
+apply H.
+assumption.
+apply H1.
+assumption.
+Qed.
+
+
+
+
+Require Import Classical.
+
+Check NNPP.
+
+Lemma lei_de_morgan_2: ~P\/~Q <-> ~(P /\Q).
+Proof.
+(*=>*)
+split.
+intro.
+intro.
+
+destruct H.
+destruct H0.
+(*contradiction.*)
+apply H.
+assumption.
+
+destruct H0.
+contradiction.
+
+
+(*<=*)
+intro.
+apply NNPP.
+intro.
+apply H.
+split.
+apply NNPP.
+intro.
+apply H0.
+left.
+assumption.
+apply NNPP.
+intro.
+apply H0.
+right.
+assumption.
+Qed.
+
+
+Lemma associatividade : ((P /\ Q) /\ S) <-> (P /\ (Q/\S)).
+Proof.
+split.
+(*=>*)
+intro.
+destruct H.
+destruct H.
+split.
+assumption.
+split;assumption.
+(*<=*)
+intro.
+destruct H.
+destruct H0.
+split.
+split.
+assumption.
+assumption.
+assumption.
+Qed.
+
+
+
+(*
+Lemma distributividade_1: (P \/ (Q /\ S)) <-> ((P \/ Q)/\(P \/ S)).
+Proof.
+split.
+(*=>*)
+intro.
+split.
+destruct H.
+left.
+assumption.
+destruct H.
+right.
+assumption.
+destruct H.
+left.
+assumption.
+right.
+destruct H.
+assumption.
+(*<=*)
+intro.
+destruct H.
+left.
+
+destruct H.
+assumption.
+
+
+destruct H0.
+assumption.
+
+*)
+
+
+Lemma distributividade_2: (P /\ (Q \/S)) <-> ((P /\ Q)\/(P/\S)).
+Proof.
+split.
+(*=>*)
+intro.
+destruct H.
+destruct H0.
+left.
+split.
+assumption.
+assumption.
+right.
+split.
+assumption.
+assumption.
+
+(*<=*)
+intro.
+destruct H.
+destruct H.
+split.
+assumption.
+left.
+assumption.
+destruct H.
+split.
+assumption.
+right.
+assumption.
+Qed.
+
+
+Lemma prop_1: (P <->Q) <-> ((P->Q)/\(Q->P)).
+Proof.
+split.
+(*=>*)
+intro.
+split.
+intro.
+apply H.
+assumption.
+intro.
+apply H.
+assumption.
+(*<=*)
+intro.
+destruct H.
+split.
+assumption.
+assumption.
+Qed.
+
+(*
+Lemma prop_2: (P -> Q) <-> (~P \/ Q).
+Proof.
+split.
+(*=>*)
+intro.
+right.
+apply H.
+
+
+*)
+
+
+
+(*
+Lemma prop_3: (P \/ Q) <-> (~P ->Q).
+Proof.
+split.
+intro.
+intro.
+apply NNPP.
+intro.
+apply H0.
+destruct H.
+assumption.
+contradiction.
+(*<=*)
+intro.
+apply NNPP.
+intro.
+apply H0.
+left.
+destruct H0.
+apply NNPP.
+intro.
+apply H0.
+apply NNPP.
+
+*)
+
+
+Lemma prop_4: (P /\ Q) <-> (~( ~P \/ ~Q)).
+Proof.
+split.
+(*=>*)
+intro.
+destruct H.
+intro.
+destruct H1.
+apply H1.
+assumption.
+apply H1.
+assumption.
+
+(*<=*)
+intro.
+split.
+apply NNPP.
+intro.
+apply H.
+left.
+assumption.
+apply NNPP.
+intro.
+apply H.
+right.
+assumption.
+Qed.
+
+
+
+
+
+

@@ -1,0 +1,89 @@
+Section Questao1.
+
+Variable A B C : Prop.
+
+Lemma exercicio1_a: (A -> C) -> (A ->(B ->C)).
+Proof.
+intros.
+apply H.
+assumption.
+Qed.
+
+Lemma exercicio1_b: ((A -> C) /\ (B -> C)) -> ((A\/B)-> C).
+Proof.
+intro.
+destruct H.
+intro.
+destruct H1.
+apply H.
+assumption.
+apply H0.
+assumption.
+Qed.
+
+
+
+Lemma exercicio_c:(~A \/ B) -> (A -> ( ~~A /\B)).
+Proof.
+split.
+intros.
+destruct H.
+elim H.
+apply H0.
+intro.
+contradiction.
+destruct H.
+elim H.
+apply H0.
+apply H.
+Qed.
+
+
+End Questao1.
+
+
+Section Questao2.
+
+Variable D:Set.
+Variable c: D.
+Variable f: D->D.
+Variables P: D->Prop.
+
+
+Lemma exercicio2: (forall x0, (P x0) -> (P(f x0))) -> ( (exists x1, P x1)) -> (exists x2,( (P x2) /\ (P(f x2)))).
+Proof.
+intros.
+destruct H0.
+specialize H with x.
+exists x.
+split.
+assumption.
+apply H.
+assumption.
+Qed.
+
+End Questao2.
+
+
+
+Section Questao3.
+
+Variable D:Set.
+Variables P Q: D->Prop.
+
+Require Import Classical.
+
+Lemma exercicio3: (forall x0,(~(P x0 ) -> ~( Q x0))) -> ( forall x0, ((Q x0) -> ( P x0))).
+Proof.
+intro.
+intro.
+specialize H with x0.
+intro.
+apply NNPP.
+intro.
+apply H.
+assumption.
+assumption.
+Qed.
+
+End Questao3.

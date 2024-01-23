@@ -1,0 +1,43 @@
+Section Logica_Intuicionista_Proposicional.
+
+Variables A B:Prop.
+
+Theorem enfraquecimento: A-> (B -> A).
+Proof.
+intros.
+assumption.
+Qed.
+
+
+Theorem modus_ponens: A-> (A->B) -> B.
+Proof.
+intros.
+apply H0.
+assumption.
+Qed.
+
+
+Lemma intro_conj : A -> B -> A /\ B.
+Proof.
+intros.
+split.
+assumption.
+assumption.
+Qed.
+
+Lemma comutatividade_conj: A /\ B -> B /\ A.
+Proof.
+intro.
+split.
+apply H.
+apply H.
+Qed.
+
+
+Lemma neg_contrad :~(A/\~A).
+Proof.
+intro.
+destruct H.
+elim H0.
+assumption.
+Qed.

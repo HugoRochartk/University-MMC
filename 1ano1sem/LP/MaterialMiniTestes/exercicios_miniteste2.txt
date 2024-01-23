@@ -1,0 +1,174 @@
+(*a) assumindo uma variável f:nat->nat tal que "f (S 0) =0", provar :
+para todo j k em nat, (k=(S 0)  /\  k=j) ->  (f j=0/\ (S 0)=(S (f k))) ;*)
+
+Variable f:nat->nat.
+Hypothesis f00: f (S 0) = 0.
+
+Variable k: nat.
+Variable j: nat.
+
+
+Lemma alinea_a: forall j k: nat, (k=(S 0)  /\  k=j) ->  (f j=0/\ (S 0)=(S (f k))).
+Proof.
+intros j k.
+split.
+destruct H.
+rewrite <- H0.
+rewrite H.
+apply f00.
+destruct H.
+rewrite H.
+rewrite f00.
+reflexivity.
+Qed.
+
+
+(* b) considerar um lambda-termo M (por exemplo K (I x) (I y) - usando as definições
+ de K e de I e as declarações de x e de y da aula), calcular a respetiva forma 
+normal  N  com o comando Eval e enunciar e provar o lema: M=N; repetir o exercício 
+com o termo Coq 1+1, provando não apenas 1+1=2, mas também, por exemplo, 
+existe n em nat t.q. 1+1=n; *)
+Section Beta_reducao.
+Variable tau:Type.
+Variable x y:tau.
+Variable z:tau->tau.
+Let I:= fun x:tau => x.
+Check I.
+Let K:= fun x y:tau => x.
+Check K.
+
+
+Eval compute in  K (I x) (I y).
+Lemma igualdade_atraves_beta_reducao: K (I x) (I y) = x.
+Proof.
+compute.
+reflexivity.
+Qed.
+
+
+Lemma um_mais_um: plus 1 1 = 2.
+Proof.
+compute.
+reflexivity.
+Qed.
+Check nat.
+Print nat.
+Variable n: nat.
+Check n.
+
+Check exists n: nat, plus 1 1 = n.
+Lemma um_mais_um_natural: exists n : nat, plus 1 1 = n.
+Proof.
+exists 2.
+compute.
+reflexivity.
+Qed.
+
+
+End Beta_reducao.
+
+(* c)  provar: 
+(i) para  todo n, (S 0) +n = S n e 
+(ii) para  todo n,  n + (S 0)  = S n 
+(experimentar fazer indução em n;
+(i) não deverá precisar de indução, mas em (ii) esta deverá ser muito útil);*)
+Variable n: nat.
+Lemma alineac_i : forall n : nat,(S 0) +n = S n.
+Proof.
+intro.
+induction n0.
+compute.
+reflexivity.
+rewrite <- IHn0.
+compute.
+reflexivity.
+Qed.
+
+Lemma alineac_ii: forall n: nat, n + (S 0)  = S n.
+Proof.
+intro.
+induction n0.
+compute.
+reflexivity.
+compute.
+fold plus.
+rewrite IHn0.
+reflexivity.
+Qed.
+
+
+
+
+
+
+(* d) enunciar e provar  em Coq que  4 é par e que  1 e 5 não são pares 
+(usando o predicado indutivo  "par" definido na aula);*)
+
+Section Predicados_indutivos.
+
+Inductive par : nat -> Prop:=
+ par0: par 0 | parS : forall n:nat, par n -> par (S (S n)).
+
+Lemma quatro_e_par : par 4.
+Proof.
+apply parS.
+apply parS.
+apply par0.
+Qed.
+
+
+Lemma um_nao_par : ~ par 1.
+Proof.
+intro.
+inversion H.
+Qed.
+
+Lemma cinco_nao_par: ~ par 5.
+Proof.
+intro.
+inversion H.
+inversion H1.
+inversion H3.
+Qed.
+
+
+
+
+(* e) provar: (i) para todo n em nat, par n -> par (2+n)  e 
+(ii)  para todo n em nat, par n -> par (n+2)  
+(verificar que (i) não precisa de um argumento indutivo, 
+mas que em (ii) é muito útil recorrer a indução no predicado indutivo "par";
+ em todo o caso, também vale a pena experimentar  argumentos  indutivos para (i)
+ - quer no predicado "par" quer no natural n). *)
+
+Lemma alinee_i: forall n:nat, par n -> par (2+n).
+Proof.
+intro.
+intro.
+induction n0.
+compute.
+apply parS.
+assumption.
+compute.
+apply parS.
+assumption.
+Qed.
+
+Lemma alineae_ii: forall n: nat, par n -> par (n+2).
+Proof.
+induction n0.
+intro.
+compute.
+apply parS.
+assumption.
+
+intro.
+induction H.
+compute.
+apply parS.
+apply par0.
+compute.
+fold plus.
+apply parS.
+assumption.
+Qed.

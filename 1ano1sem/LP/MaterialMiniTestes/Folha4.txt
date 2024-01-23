@@ -1,0 +1,52 @@
+
+(*---------------------------Folha 4------------------------------------*)
+
+(*Exercício 2.6*)
+
+Section exercicio2_6.
+
+Variable D:Set.
+Variables P Q: D->Prop.
+
+Lemma exercicio2_6_a: (forall x, P x-> Q x) -> ((forall x, P x) -> (forall x, Q x)).
+Proof.
+intro.
+intro.
+intro.
+specialize H with x.
+apply H.
+specialize H0 with x.
+assumption.
+Qed.
+
+
+Lemma exercicio2_6_b: (forall x, P x -> P x).
+intro.
+intro.
+assumption.
+Qed.
+
+Variables R: D->D->Prop.
+Lemma exercicio2_6_c: ((exists x,(exists y, R x y))) -> (exists y, (exists x,R x y)).
+Proof.
+intro.
+destruct H.
+destruct H.
+
+exists x0.
+exists x.
+assumption.
+Qed.
+
+
+
+Lemma exercicio2_6_d: (exists x,(forall y, R x y)) -> (forall y, (exists x, R x y)).
+Proof.
+intro.
+destruct H.
+intro.
+exists x.
+specialize H with y.
+assumption.
+Qed.
+
