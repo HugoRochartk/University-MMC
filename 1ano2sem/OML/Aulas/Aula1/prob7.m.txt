@@ -1,0 +1,90 @@
+clear;
+clc;
+%define variaveis simbolicas
+syms x1 x2;
+%definir a funcao F
+F=(x2-x1^2)*(x2-2*x1^2)
+
+%derivadas de F
+grad1=diff(F,x1);
+grad2=diff(F,x2);
+grad=[grad1;grad2];
+%matriz Hessiana
+hess=[diff(grad1,x1) diff(grad1,x2)
+    diff(grad2,x1) diff(grad2,x2)];
+fprintf('gradiente de F:\n'); disp(grad)
+fprintf('Hessiana de F:\n'); disp(hess)
+%mostrar que (0 0) e pt. estac. de F 
+fprintf('Mostrar que (0 0) e pto. estac. de F:\n')
+fprintf('1-calcular o gradiente no pto. (0,0):\n')
+gg=subs(grad,[x1 x2],[0 0]);
+disp(gg)
+fprintf('2-mostrar que o pto. (0,0) satifaz 2ª cond. necess.:\n')
+xs=[0 0];  %ponto estac. (0 0)
+[n nc]=size(xs);  %existem n pontos estacionarios
+[dim dim1]=size(hess);  %dimensao da hessiana
+for i=1:n 
+    %calcular a Hessiana em cada ponto estacionario
+    hessxs=subs(hess,[x1 x2],[xs(i,1) xs(i,2)]);
+    fprintf('Hessiana de F no ponto:'); disp([xs(i,1) xs(i,2)])
+    disp(hessxs)
+    %calculo dos determinantes das submatrizes principais
+    for j=1:dim
+       A=hessxs(1:j,1:j);
+       d(j)=det(A);
+    end
+    fprintf('Determinantes das submatrizes principais da Hessiana:\n')
+    disp(d) %determinante de cada submatriz de hessxs
+    %verificar se hessiana e defpos/defneg, semidefpos/semidefneg ou indef
+    nulo=0;
+    pos=0;
+    neg=0;
+    indf=0;
+    for j=1:dim
+        if double(d(j))>0
+            pos=pos+1;
+        elseif double(d(j))<0
+            if (j==1)
+                neg=neg+1;
+            elseif(j==2*(j-2)-1) % numero impar
+               neg=neg+1;
+           else
+               indf=1;
+           end
+       else
+           nulo=nulo+1;
+       end
+   end
+   if nulo==0
+       switch dim
+        case pos
+            fprintf('A matriz e definida positiva.\n')
+            fprintf('A funcao tem um minimo local estrito no ponto:\n')
+            disp(xs)
+            min=double(subs(F,[x1 x2],[xs(i,1) xs(i,2)]))
+        case (pos+neg)
+            fprintf('A matriz e definida negativa.\n')
+            fprintf('A funcao tem um maximo local estrito no ponto:\n')
+            disp(xs)
+            max=double(subs(F,[x1 x2],[xs(i,1) xs(i,2)]))
+        otherwise
+            fprintf('A matriz e indefinida.\n')
+            fprintf('E um ponto sela de F:\n')
+            disp(double([xs(i,1) xs(i,2)]))
+        end
+    else
+        switch dim
+         case (nulo+pos)
+            fprintf('A matriz e semidefinida positiva no ponto:\n')
+            disp(xs)
+            valorF=subs(F,[x1 x2],[xs(i,1) xs(i,2)])
+        case (nulo+pos+neg)
+            fprintf('A matriz e semidefinida negativa\n')
+        otherwise
+            fprintf('A matriz e indefinida\n')
+        end
+    end
+end
+        
+%grafico de F
+ezsurfc(F,[0 0.5])

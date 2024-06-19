@@ -1,0 +1,44 @@
+clear;
+clc;
+%define variaveis simbolicas
+syms x1 x2 m;
+%definir a funcao F
+F=(x2-x1^2)*(x2-2*x1^2)
+%mostrar que (0 0) e pt. estac. para qq recta que passe na origem: x2-mx1=0 
+fprintf('1- Fazer x2=mx1 na funcao F:\n')
+F=subs(F,[x1 x2] ,[x1 m*x1])
+%derivadas de F
+grad1=diff(F,x1);
+hess=diff(grad1,x1);
+fprintf('gradiente de F:\n'); disp(grad1)
+fprintf('Hessiana de F:\n'); disp(hess)
+%calcular ptos. estc.
+xs=solve(grad1==0,[x1]);
+fprintf('2- verificar que grad.=0 para x1=0 (x2=2x1=0):\n')
+grad1=subs(grad1, x1,0);
+disp(grad1)
+fprintf('3- Verificar que o pto. 0 e minimo de F:\n')
+fprintf('pto. estac. de F:\n'); disp(xs(1))
+n=1;
+[dim dim1]=size(hess); %dimensao da hessiana
+for i=1:n 
+    %calcular a Hessiana em cada ponto estacionario
+    hessxs=subs(hess,x1,xs(i));
+    fprintf('Hessiana de F no ponto:'); disp(xs(i))
+    disp(hessxs)
+    %calculo dos determinantes das submatrizes principais
+    for j=1:dim
+       A=hessxs(1:j,1:j);
+       d(j)=det(A);
+    end
+    fprintf('Determinantes das submatrizes principais da Hessiana:\n')
+    disp(d) %determinante de cada submatriz de hessxs
+    %verificar se hessiana e defpos/defneg, semidefpos/semidefneg ou indef
+    nulo=0;
+    pos=0;
+    neg=0;
+    indf=0;
+end
+        
+%grafico de F
+ezsurfc(F,[-50 50])

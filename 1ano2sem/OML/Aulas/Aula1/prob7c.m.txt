@@ -1,0 +1,29 @@
+clear;
+clc;
+%define variaveis simbolicas
+syms x1 x2 k;
+%definir a funcao F
+F=(x2-x1^2)*(x2-2*x1^2)
+%mostrar que (0 0) e pt. estac. para qq recta que passe na origem: x2-mx1=0 
+fprintf('1- Fazer x2=kx1^2 na funcao F:\n')
+F=subs(F,[x1 x2 k] ,[x1 k*x1^2 k])
+%derivadas de F
+grad1=diff(F,x1);
+hess=diff(grad1,x1);
+fprintf('gradiente de F:\n'); disp(grad1)
+fprintf('Hessiana de F:\n'); disp(hess)
+
+fprintf('2- verificar que grad.=0 para x1=0 (x2=kx1^2=0):\n')
+grad1=subs(grad1, [x1 k], [0 k]);
+disp(grad1)
+fprintf('3- Calcular a Hessiana no pto. 0:\n')
+hessxs=subs(hess,[x1 k], [0 k]);
+disp(hessxs)
+dim=1;
+%calculo dos determinantes das submatrizes principais
+for j=1:dim
+    A=hessxs(1:j,1:j);
+    d(j)=det(A);
+end
+fprintf('Determinantes das submatrizes principais da Hessiana:\n')
+disp(d) %determinante de cada submatriz de hessxs
