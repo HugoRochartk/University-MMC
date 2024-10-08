@@ -10,6 +10,7 @@ par(mfrow=c(2,2))
 x1 <- runif(100,0,1)
 y1 <- runif(100,0,1)
 plot(x1,y1,cex=0.6)
+?plot
 #library(spatstat)
 #pp <- runifpoint(100)
 #plot(pp)
@@ -31,6 +32,7 @@ x3 <- c(a1,a2,a3)
 y3 <- c(b1,b2,b3)
 plot(x3,y3,cex=0.6)
 #########################################
+
 
 #############
 # EXERCICIO 2
@@ -61,9 +63,9 @@ points(dados.ppp, cex=0.6)
 # a) Analise dos dados s100 da package geoR
 library(geoR)
 points(s100)
-plot.geodata(s100)
 plot(s100)
-
+summary(s100)
+s100
 # c) Faça uma estimação não-paramétrica da variável de interesse, experimentando diferentes larguras de banda
 library(spatstat)
 ?Smooth.ppp
@@ -86,4 +88,27 @@ plot(density.ppp(dados.ppp, sigma=1))
 points(dados.ppp, cex=0.6)
 
 
+#ex 4
+#a
+library(geoR)
+?parana
+points(parana)
+# pela visualização do gráfico é visível que a zona sudoeste foi onde ocorreu maior precipitação média nos meses de maio e junho
+plot(parana)
+summary(parana)
+#podemos dterminar que a distância minima entre observações foi de 1 (km?) e a máxima é de 619.4925
+#o valor minimo observado para a precipitação mínima foi de 162, a mediana 269 e o max registado foi de 413
 
+parana
+#b
+library(spatstat)
+parana
+dados.ppp$window #window é de 0 a 1 n conseguimos representar os pontos assim
+xrange <- range(parana$borders[,1])
+yrange <- range(parana$borders[,2])
+
+
+win <- owin(xrange=xrange, yrange=yrange)
+dados.ppp <- ppp(x=parana$coords[,1], y=parana$coords[,2], marks=parana$data, window=win)
+
+aux <- Smooth(dados.ppp); names(aux); plot(aux)
