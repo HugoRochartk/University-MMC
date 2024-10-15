@@ -5,7 +5,6 @@ for i=1:99
     r = r + 0.01;
 end
 
-
 n = length(x);
 
 for i=1:n
