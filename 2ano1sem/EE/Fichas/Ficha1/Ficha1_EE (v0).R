@@ -112,3 +112,6 @@ win <- owin(xrange=xrange, yrange=yrange)
 dados.ppp <- ppp(x=parana$coords[,1], y=parana$coords[,2], marks=parana$data, window=win)
 
 aux <- Smooth(dados.ppp); names(aux); plot(aux)
+
+?xvalid
+cvMMQ <- xvalid(parana, model=modeloMMQ)
