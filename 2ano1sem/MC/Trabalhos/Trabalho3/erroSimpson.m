@@ -1,10 +1,10 @@
-function [int_Aprox, est_erro] = regSimpson(f,a,b,N)
+function [int_Aprox, est_erro] = erroSimpson(f,a,b,N)
 
 % regSimpson Calcula uma aproximação para um integral definido usando a 
 %             regra de Simpson (composta) e, se N for múltiplo de 4,
 %             calcula uma estimativa para o respetivo erro.
 %
-% [int_Aprox,est_erro] = regSimpson(f,a,b,N)
+% [int_Aprox,est_erro] = erroSimpson(f,a,b,N)
 %   Calcula uma aproximação para o valor do integral entre a e b da
 %   função f, usando a regra de Simpson composta com N subintervalos
 %   e, se N for múltiplo de 4, determina uma estimativa para o erro dessa
